@@ -3,7 +3,11 @@ import { NotionService } from './services/notionService';
 import { ClaudeService } from './services/claudeService';
 import { NotionPagesProvider } from './providers/notionPagesProvider';
 
+// Make context available globally
+let globalContext: vscode.ExtensionContext;
+
 export function activate(context: vscode.ExtensionContext) {
+    globalContext = context;
     console.log('Notion Claude Editor is now active!');
 
     // Initialize services
@@ -97,7 +101,7 @@ async function importNotionPage(notionService: NotionService) {
             
             // Store page ID in document metadata
             const uri = doc.uri;
-            context.workspaceState.update(`notion-page-${uri.toString()}`, pageId);
+            globalContext.workspaceState.update(`notion-page-${uri.toString()}`, pageId);
             
             vscode.window.showInformationMessage(`Imported "${title}" from Notion`);
         });
@@ -205,7 +209,7 @@ async function exportToNotion(notionService: NotionService) {
     const uri = editor.document.uri;
     
     // Check if this document is linked to a Notion page
-    const pageId = context.workspaceState.get(`notion-page-${uri.toString()}`);
+    const pageId = globalContext.workspaceState.get(`notion-page-${uri.toString()}`);
     
     try {
         await vscode.window.withProgress({
@@ -226,7 +230,7 @@ async function exportToNotion(notionService: NotionService) {
                 
                 if (title) {
                     const newPageId = await notionService.createPage(title, content);
-                    context.workspaceState.update(`notion-page-${uri.toString()}`, newPageId);
+                    globalContext.workspaceState.update(`notion-page-${uri.toString()}`, newPageId);
                     vscode.window.showInformationMessage(`New page "${title}" created in Notion!`);
                 }
             }
@@ -237,6 +241,3 @@ async function exportToNotion(notionService: NotionService) {
 }
 
 export function deactivate() {}
-
-// Make context available globally
-let context: vscode.ExtensionContext;

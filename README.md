@@ -31,10 +31,21 @@ A VS Code extension that integrates Notion with Claude AI for seamless content e
    - Generate an API key
 
 ### Setup
-1. Install the extension from VS Code Marketplace (when published)
-2. Open Command Palette (`Ctrl/Cmd+Shift+P`)
-3. Run `Notion Claude: Configure API Keys`
-4. Enter your Notion and Anthropic API keys
+
+#### For Development/Local Installation:
+1. Clone this repository: `git clone https://github.com/your-username/notion-claude-vscode-extension.git`
+2. Run setup script: `./scripts/setup.sh` (or `npm install && npm run compile`)
+3. Package extension: `npm run package`
+4. Install locally: `code --install-extension notion-claude-editor-0.1.0.vsix`
+
+#### From VS Code Marketplace (when published):
+1. Install the extension from VS Code Marketplace
+2. Restart VS Code
+
+#### API Configuration:
+1. Open Command Palette (`Ctrl/Cmd+Shift+P`)
+2. Run `Notion Claude: Configure API Keys`
+3. Enter your Notion and Anthropic API keys
 
 ## Usage
 
