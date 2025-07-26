@@ -1,0 +1,116 @@
+{
+  "name": "notion-claude-editor",
+  "displayName": "Notion Claude Editor",
+  "description": "Edit Notion pages with Claude AI directly in VS Code",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Notebooks"
+  ],
+  "activationEvents": [
+    "onCommand:notion-claude.importPage",
+    "onCommand:notion-claude.editWithClaude",
+    "onCommand:notion-claude.exportToNotion"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "notion-claude.importPage",
+        "title": "Import Notion Page",
+        "category": "Notion Claude"
+      },
+      {
+        "command": "notion-claude.editWithClaude",
+        "title": "Edit with Claude",
+        "category": "Notion Claude",
+        "icon": "$(sparkle)"
+      },
+      {
+        "command": "notion-claude.exportToNotion",
+        "title": "Export to Notion",
+        "category": "Notion Claude",
+        "icon": "$(cloud-upload)"
+      },
+      {
+        "command": "notion-claude.browsePages",
+        "title": "Browse Notion Pages",
+        "category": "Notion Claude",
+        "icon": "$(list-tree)"
+      },
+      {
+        "command": "notion-claude.configure",
+        "title": "Configure API Keys",
+        "category": "Notion Claude",
+        "icon": "$(gear)"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "notion-claude.editWithClaude",
+          "when": "editorHasSelection",
+          "group": "navigation"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "notion-claude.editWithClaude",
+          "when": "resourceExtname == .md",
+          "group": "navigation"
+        },
+        {
+          "command": "notion-claude.exportToNotion",
+          "when": "resourceExtname == .md",
+          "group": "navigation"
+        }
+      ]
+    },
+    "views": {
+      "explorer": [
+        {
+          "id": "notion-claude.pageExplorer",
+          "name": "Notion Pages",
+          "when": "notion-claude.enabled"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Notion Claude",
+      "properties": {
+        "notion-claude.notionApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Your Notion Integration API Key"
+        },
+        "notion-claude.anthropicApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Your Anthropic API Key"
+        },
+        "notion-claude.autoSync": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically sync changes to Notion"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.2.15",
+    "@anthropic-ai/sdk": "^0.32.1"
+  }
+}
